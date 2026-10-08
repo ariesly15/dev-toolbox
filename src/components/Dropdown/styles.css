@@ -1,0 +1,175 @@
+/* Dropdown 组件样式（合并自 LightDropdown 的 .cq-dropdown 与 FilterDropdown 的 .filter-dd） */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* 触发按钮：仅负责布局，外观由 shape 类或调用方 triggerClassName 决定 */
+.dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.dropdown-trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* 单选 wrapper：最小宽度（circle 模式不需要） */
+.dropdown-single {
+  min-width: 160px;
+}
+
+.dropdown-single:has(.dropdown-trigger-circle) {
+  min-width: 0;
+}
+
+/* 单选默认触发器（无自定义 shape 时自动应用）：特异性 0,1,0，可被 shape 类覆盖 */
+.dropdown-trigger-default {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: var(--mono);
+  background: #fff;
+  color: var(--text);
+  justify-content: space-between;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.dropdown-trigger-default:hover:not(:disabled),
+.dropdown-trigger-default:focus {
+  border-color: var(--accent);
+}
+
+.dropdown-value {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown-caret {
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.dropdown-caret.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: fixed;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(16, 24, 40, 0.12);
+  z-index: 200;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-multi .dropdown-menu {
+  min-width: 160px;
+}
+
+/* 单选选项 */
+.dropdown-option {
+  appearance: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: var(--mono);
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 6px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dropdown-option:hover {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.dropdown-option.active {
+  background: var(--accent-faint);
+  font-weight: 600;
+  color: var(--accent-strong);
+}
+
+/* 多选选项：文案与开关两端对齐 */
+.dropdown-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dropdown-filter:hover {
+  background: var(--accent-soft);
+}
+
+/* ──── 触发器外形（:where 提升特异性至 0,2,0，确保覆盖 .btn 等外部类） ──── */
+
+/* 默认（非 circle）：圆角矩形，可容纳 prefix + label */
+:where(.dropdown-trigger):not(.dropdown-trigger-circle) {
+  border-radius: 8px;
+  padding: 5px 10px;
+  height: 35px;
+  gap: 6px;
+}
+
+/* circle：紧凑胶囊形，仅展示 prefix + caret（无 label 文字） */
+:where(.dropdown-trigger).dropdown-trigger-circle {
+  border-radius: 999px;
+  padding: 0 8px;
+  height: 26px;
+  gap: 4px;
+}
+
+/* ──── 调用方自定义样式（特异性 0,1,0，叠加在 shape 之上） ──── */
+
+/* Nav 专用触发器（边框 + 背景 + 交互） */
+:where(.dropdown-trigger).dropdown-trigger-nav {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-family: inherit;
+  font-weight: 550;
+  font-size: 12px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+:where(.dropdown-trigger).dropdown-trigger-nav:hover,
+:where(.dropdown-trigger).dropdown-trigger-nav[aria-expanded="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+:where(.dropdown-trigger).dropdown-trigger-nav.active {
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  border-color: transparent;
+}

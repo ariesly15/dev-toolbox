@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Pone 工具箱",
+  "description": "前端工具箱：URL 解析编辑、二维码生成等实用工具",
+  "version": "0.1.0",
+  "action": {
+    "default_title": "Pone 工具箱"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": []
+}

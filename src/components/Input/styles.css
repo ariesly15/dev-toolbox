@@ -1,0 +1,128 @@
+/* Input 组件样式（含自动补全下拉，合并自原 .autocomplete-wrapper / .key-suggestions） */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.15s ease;
+}
+
+.input-wrap:focus-within {
+  border-color: var(--accent);
+}
+
+.input-wrap-disabled {
+  background: #f8fafc;
+  cursor: not-allowed;
+}
+
+.input-field {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  padding: 8px 12px;
+}
+
+.input-field::placeholder {
+  color: var(--muted);
+}
+
+.input-field:disabled {
+  cursor: not-allowed;
+  color: #98a2b3;
+}
+
+/* 左侧前缀 */
+.input-prefix {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-left: 10px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 14px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.input-prefix + .input-field {
+  padding-left: 2px;
+}
+
+/* 右侧按钮区：扩展按钮 + 清空按钮并列 */
+.input-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  padding-right: 6px;
+}
+
+.input-clear {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.input-clear:hover {
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ---- 自动补全下拉（原 .key-suggestions） ---- */
+.key-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 2px 0 0;
+  padding: 4px 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow-y: auto;
+}
+
+.key-suggestions.drop-up {
+  top: auto;
+  bottom: 100%;
+  margin: 0 0 2px;
+}
+
+.key-suggestions li {
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: var(--mono);
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.1s ease;
+}
+
+.key-suggestions li:hover,
+.key-suggestions li.highlighted {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}

@@ -1,0 +1,23 @@
+printWidth: 100
+
+# 指定每个缩进级别的空格数。
+tabWidth: 2
+
+# 在语句末尾打印分号。
+semi: true
+
+# 使用单引号而不是双引号。
+singleQuote: false
+
+jsxSingleQuote: false
+
+# v3.0.0 中默认值从 es5 更改为 all。
+# - all 尽可能在尾随逗号（包括 函数参数和调用）
+# - es5 - 仅在 ES5 中有效的结尾逗号（对象，数组等）
+# - none - 无结尾逗号
+trailingComma: "all"
+
+# 打印对象字面量中括号之间的空格。
+# - true  - 示例：{ foo: bar }。默认值。
+# - false - 示例：{foo: bar}。
+bracketSpacing: true

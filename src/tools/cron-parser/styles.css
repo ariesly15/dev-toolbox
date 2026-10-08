@@ -1,0 +1,387 @@
+/* ========== Cron Parser ========== */
+.cron-input-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cron-input-label {
+  margin-bottom: 6px;
+}
+
+.cron-input-hint {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
+.cron-input-wrap {
+  width: 100%;
+}
+
+.cron-input-wrap .input-field {
+  font-family: var(--mono);
+  font-size: 14px;
+  padding: 10px 14px;
+}
+
+/* 自然语言描述横幅 */
+.cron-desc-banner {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 550;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+/* 运行预览 + 字段明细 双栏 */
+.cron-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
+  grid-template-areas:
+    "next-title fields-title"
+    "runs table";
+  gap: 10px 20px;
+  margin-top: 18px;
+}
+
+.cron-title-next {
+  grid-area: next-title;
+}
+
+.cron-title-fields {
+  grid-area: fields-title;
+}
+
+@media (max-width: 820px) {
+  .cron-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "next-title"
+      "runs"
+      "fields-title"
+      "table";
+  }
+}
+
+.cron-col-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* 本地 / UTC 分段切换 */
+.cron-tz-switch {
+  display: inline-flex;
+  border-radius: 999px;
+  background: var(--bg);
+  padding: 2px;
+}
+
+.cron-tz-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 550;
+  padding: 3px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.cron-tz-btn:hover {
+  color: var(--text);
+}
+
+.cron-tz-btn.active {
+  background: #fff;
+  color: var(--accent-strong);
+  box-shadow: var(--shadow);
+}
+
+.cron-runs {
+  grid-area: runs;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 13px;
+  min-height: 148px;
+  justify-content: center;
+}
+
+.cron-runs-empty {
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+}
+
+/* 字段明细表 */
+.cron-table-wrap {
+  grid-area: table;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cron-field-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cron-field-table th {
+  text-align: left;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 550;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+}
+
+.cron-field-table td {
+  padding: 8px 12px;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f3f8;
+  vertical-align: top;
+}
+
+.cron-field-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cron-field-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cron-cell-raw {
+  font-family: var(--mono);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.cron-cell-expanded {
+  font-family: var(--mono);
+}
+
+/* ---- 构建表达式 ---- */
+.cron-sub-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 550;
+  margin: 16px 0 8px;
+}
+
+.cron-builder > .cron-sub-label:first-child {
+  margin-top: 0;
+}
+
+.cron-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cron-preset-chip {
+  appearance: none;
+  border: none;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 550;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.cron-preset-chip:hover {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+/* 表单式行布局：字段标签 + 语法下拉 + 参数输入 三列，行间紧凑无卡片边框 */
+.cron-field-rows {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.cron-field-row {
+  display: grid;
+  grid-template-columns: 90px 130px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cron-field-row:last-child {
+  border-bottom: none;
+}
+
+.cron-field-label {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+/* 行内下拉触发器：填满 130px 列，去掉卡片语境下的宽度 100% 副作用 */
+.cron-field-row .dropdown {
+  width: 100%;
+}
+
+.cron-field-row .dropdown-single {
+  min-width: 0;
+}
+
+.cron-field-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+}
+
+@media (max-width: 560px) {
+  .cron-field-row {
+    grid-template-columns: 70px 110px minmax(0, 1fr);
+    gap: 8px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .cron-field-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .cron-field-label {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    color: var(--muted);
+  }
+}
+
+.cron-mode-trigger {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 550;
+  background: #fff;
+  color: var(--text);
+  width: 100%;
+  justify-content: space-between;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.cron-mode-trigger:hover {
+  border-color: var(--accent);
+}
+
+.cron-mode-trigger .dropdown-value {
+  flex: 1;
+  text-align: left;
+}
+
+.cron-num-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.cron-list-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.cron-builder-controls .input-field {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+.cron-sep,
+.cron-step-prefix {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.cron-builder-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.cron-local-note {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.cron-built-expression {
+  margin-top: 12px;
+  background: #f8fafc;
+  font-weight: 600;
+  word-spacing: 0.5em;
+  cursor: default;
+}
+
+/* ---- 语法速查 chips ---- */
+.cron-syntax-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+.cron-syntax-chips > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-soft, #f8fafc);
+  white-space: nowrap;
+}
+
+.cron-syntax-chips code {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent-strong);
+  font-weight: 600;
+}

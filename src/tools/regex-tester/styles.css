@@ -1,0 +1,323 @@
+/* ──── 正则测试器 ──── */
+
+/* 高亮颜色 */
+.rx-c0 { --rx-bg: #ffeaa7; --rx-border: #fdcb6e; }
+.rx-c1 { --rx-bg: #a3d8f4; --rx-border: #74b9ff; }
+.rx-c2 { --rx-bg: #b8e994; --rx-border: #78e08f; }
+.rx-c3 { --rx-bg: #f5c6cb; --rx-border: #f1aeb5; }
+.rx-c4 { --rx-bg: #d4b4f7; --rx-border: #b388eb; }
+.rx-c5 { --rx-bg: #fcc28e; --rx-border: #f0932b; }
+
+[data-theme="indigo"] .rx-c0 { --rx-bg: #dfe6fd; --rx-border: #a8b8f8; }
+[data-theme="indigo"] .rx-c1 { --rx-bg: #c3f0e8; --rx-border: #6ecfb8; }
+[data-theme="indigo"] .rx-c2 { --rx-bg: #fde8d0; --rx-border: #f5b97a; }
+[data-theme="indigo"] .rx-c3 { --rx-bg: #f8d3d8; --rx-border: #eb9aa4; }
+[data-theme="indigo"] .rx-c4 { --rx-bg: #e4d4f7; --rx-border: #b48ae0; }
+[data-theme="indigo"] .rx-c5 { --rx-bg: #d0f0c0; --rx-border: #81c964; }
+
+/* ── 正则输入卡片 ── */
+.rx-pattern-card {
+  padding-bottom: 14px;
+}
+
+/* 正则输入区 */
+.rx-pattern-wrap {
+  font-family: var(--mono);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.rx-pattern-field {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.rx-slash-prefix {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Flag 下拉触发器 */
+.rx-flag-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: color 0.15s;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.rx-flag-trigger:hover {
+  color: var(--text);
+}
+
+.rx-flag-trigger.active {
+  color: var(--accent-strong);
+}
+
+/* Flag 下拉菜单宽度覆盖 */
+.rx-pattern-card .dropdown-multi .dropdown-menu {
+  min-width: 240px;
+}
+
+.rx-flag-icon {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+}
+
+.rx-flag-badges {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.rx-flag-none {
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+/* 替换行 */
+.rx-replace-wrap {
+  font-family: var(--mono);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.rx-replace-wrap .input-field {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.rx-replace-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.rx-replace-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  margin-right: 4px;
+}
+
+.rx-replace-toggle input {
+  accent-color: var(--accent);
+}
+
+/* ── 双栏布局 ── */
+.rx-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 820px) {
+  .rx-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 左侧：编辑器区（高亮 + 输入叠加） */
+.rx-editor {
+  position: relative;
+  padding: 0;
+  min-height: 200px;
+}
+
+.rx-editor-pre {
+  margin: 0;
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: var(--text);
+  min-height: 200px;
+  pointer-events: none;
+}
+
+.rx-editor-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 14px 16px;
+  margin: 0;
+  border: none;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: transparent;
+  caret-color: var(--text);
+  background: transparent;
+  resize: none;
+  outline: none;
+  overflow: auto;
+}
+
+.rx-editor-input::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+.rx-placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+/* 高亮标记 */
+.rx-hl {
+  border-radius: 3px;
+  padding: 1px 0;
+  background: var(--rx-bg);
+  box-shadow: 0 0 0 1px var(--rx-border);
+}
+
+.rx-hl-zero {
+  background: transparent;
+  box-shadow: none;
+  color: var(--danger);
+  font-weight: 700;
+  padding: 0 1px;
+}
+
+/* ── 右侧栏 ── */
+.rx-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rx-side-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  box-shadow: var(--shadow);
+}
+
+.rx-side-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.rx-side-title:empty {
+  display: none;
+}
+
+/* 匹配列表 */
+.rx-match-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.rx-match-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+
+.rx-match-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: var(--rx-bg);
+  color: var(--text);
+}
+
+.rx-match-text {
+  font-family: var(--mono);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 捕获组条目 */
+.rx-group-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.rx-group-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.rx-group-entry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.rx-group-key {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  min-width: 16px;
+  text-align: center;
+}
+
+.rx-group-named {
+  color: var(--accent-strong);
+}
+
+.rx-group-entry code {
+  font-family: var(--mono);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 替换输出 */
+.rx-replace-output {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 200px;
+  overflow-y: auto;
+  color: var(--text);
+}
